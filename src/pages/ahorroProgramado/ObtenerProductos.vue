@@ -37,6 +37,7 @@
 import { defineComponent } from 'vue'
 import ApiService from "src/ApiService.js";
 import { QSpinnerGears } from 'quasar'
+import  AuthService  from "src/auth-module/AuthServices.js";
 
 export default defineComponent({
     name: "CardSocial",
@@ -131,34 +132,39 @@ export default defineComponent({
                 html: true
             });
 
-            var result = await ApiService.GetProductos().then((response) => {
+            await ApiService.GetProductos().then((response) => {
                 this.productos = response.sdtProductos.sBTProducto;
                 if (response.Erroresnegocio.BTErrorNegocio[0]) {
                     this.showNotif(response.Erroresnegocio.BTErrorNegocio[0].Descripcion);
                     if (response.Erroresnegocio.BTErrorNegocio[0].Descripcion == "Sesión inválida") {
-                        // setTimeout(() => {
-                        //     AuthService.logout();
-                        //     this.$store.dispatch("logout");
-                        //     this.$router.push("/login");
-                        // }, 3000)
+                        setTimeout(() => {
+                            AuthService.logout();
+                            this.$store.dispatch("logout");
+                            this.$router.push("/login");
+                        }, 3000)
                     }else{
                         if (!this.productos[0]) {
                             this.showNotif("No se encuentran registros!");
                         }
                     }
                 }
-            }).catch((e) => {
-                console.log("perro ", e)
-                this.showNotif(e.message)
-            })
-
-            if (result) {
                 dismiss()
-            } else {
+            }).catch((e) => {
+                
+                this.showNotif(e.message)
                 setTimeout(() => {
                     dismiss() // will hide the notification above
                 }, Math.random() * 2000)
-            }
+
+            })
+            // if (result) {
+            //     alert("HI")
+            //     dismiss()
+            // } else {
+            //     setTimeout(() => {
+            //         dismiss() // will hide the notification above
+            //     }, Math.random() * 2000)
+            // }
             
             // if (!result.success) {
             //     this.showNotif(result.message)
