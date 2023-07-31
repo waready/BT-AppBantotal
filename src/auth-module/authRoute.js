@@ -2,7 +2,7 @@ export const authRoute = {
     
     path: "/login",
     name: "login",
-    component: () => import("./Login.vue"),
+    component: () => import('pages/Login.vue'),
     props: {
       afterLogged: ({ $router, $route, $store }) => {
         $store.dispatch("authAfterLogged").then(() => {

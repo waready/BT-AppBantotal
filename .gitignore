@@ -1,6 +1,7 @@
 .DS_Store
 .thumbs.db
 .vscode
+.env*
 node_modules
 
 # Quasar core related directories
@@ -35,5 +36,5 @@ yarn-error.log*
 *.sln
 
 # local .env files
-.env
+
 .env.local*
