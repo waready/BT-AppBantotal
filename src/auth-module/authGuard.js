@@ -1,4 +1,4 @@
-import { secureStorage } from "../utils/secureStorage.js";
+import { secureStorage } from "src/utils/secureStorage.js";
 
 export const authGuard = (to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {

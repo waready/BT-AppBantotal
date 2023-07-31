@@ -12,16 +12,13 @@
         <div class="q-gutter-sm row items-center no-wrap">
           <q-btn round dense flat color="white" :icon="false ? 'fullscreen_exit' : 'fullscreen'">
           </q-btn>
-          <q-btn round dense flat color="white" icon="fab fa-github" type="a"
-            href="https://github.com/pratik227/quasar-admin" target="_blank">
-          </q-btn>
-          <q-btn round dense flat style="color:red !important;" type="a" href="https://github.com/sponsors/pratik227"
-            target="_blank">
-            <i class="fa fa-heart fa-2x fa-beat"></i>
+
+          <q-btn round dense flat>
+            <q-img src="~assets/cat.png" width="35px" />
           </q-btn>
           <q-btn round dense flat color="white" icon="notifications">
             <q-badge color="red" text-color="white" floating>
-              5
+              3
             </q-badge>
             <q-menu>
               <q-list style="min-width: 100px">
@@ -41,14 +38,231 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
+    <q-drawer v-model="leftDrawerOpen" show-if-above bordered class="bg-primary text-white">
       <q-list>
-        <q-item-label header>
-          Essential Links
+        <q-item-label header class="text-white">
+          <q-btn round dense flat style="color:red !important;">
+            <i class="fa fa-heart fa-1.5x fa-beat"></i>
+          </q-btn>
+          By waready
         </q-item-label>
+        <q-item to="/" active-class="q-item-no-link-highlighting">
+          <q-item-section avatar>
+            <q-icon name="dashboard" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Dashboard</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item to="/Dashboard2" active-class="q-item-no-link-highlighting">
+          <q-item-section avatar>
+            <q-icon name="dashboard" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>CRM Dashboard</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-expansion-item icon="pages" label="Ahorro Programado">
+          <q-list class="q-pl-lg">
+            <q-item to="/Login-1" active-class="q-item-no-link-highlighting">
+              <q-item-section avatar>
+                <q-icon name="email" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Login-1</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item to="/Lock" active-class="q-item-no-link-highlighting">
+              <q-item-section avatar>
+                <q-icon name="lock" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Lock Screen</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item to="/Lock-2" active-class="q-item-no-link-highlighting">
+              <q-item-section avatar>
+                <q-icon name="lock" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Lock Screen - 2</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item to="/Pricing" active-class="q-item-no-link-highlighting">
+              <q-item-section avatar>
+                <q-icon name="list" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Pricing</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item-label header class="text-weight-bolder text-white">Generic</q-item-label>
+            <q-item to="/Profile" active-class="q-item-no-link-highlighting">
+              <q-item-section avatar>
+                <q-icon name="person" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>User Profile</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item to="/Productos" active-class="q-item-no-link-highlighting">
+              <q-item-section avatar>
+                <q-icon name="settings" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Productos</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-expansion-item>
+        <q-expansion-item icon="map" label="CadenaCierre">
+          <q-list class="q-pl-lg">
+            <q-item to="/Map" active-class="q-item-no-link-highlighting">
+              <q-item-section avatar>
+                <q-icon name="map" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Map</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item to="/MapMarker" active-class="q-item-no-link-highlighting">
+              <q-item-section avatar>
+                <q-icon name="location_on" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Map Marker</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item to="/StreetView" active-class="q-item-no-link-highlighting">
+              <q-item-section avatar>
+                <q-icon name="streetview" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Street View</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-expansion-item>
 
+        <q-item to="/Mail" active-class="q-item-no-link-highlighting">
+          <q-item-section avatar>
+            <q-icon name="email" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Calendarios</q-item-label>
+          </q-item-section>
+        </q-item>
 
-        <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" />
+        <q-item to="/directory" active-class="q-item-no-link-highlighting">
+          <q-item-section avatar>
+            <q-icon name="card_giftcard" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>CASH Management</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item to="/TreeTable" active-class="q-item-no-link-highlighting">
+          <q-item-section avatar>
+            <q-icon name="list" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Clientes</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item to="/Charts" active-class="q-item-no-link-highlighting">
+          <q-item-section avatar>
+            <q-icon name="insert_chart" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Configuración Bantotal</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item to="/Footer" active-class="q-item-no-link-highlighting">
+          <q-item-section avatar>
+            <q-icon name="info" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Contabilidad</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item to="/CardHeader" active-class="q-item-no-link-highlighting">
+          <q-item-section avatar>
+            <q-icon name="card_giftcard" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Cuentas Corrientes</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item to="/Cards" active-class="q-item-no-link-highlighting">
+          <q-item-section avatar>
+            <q-icon name="card_giftcard" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Cuentas De Ahorro</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item to="/Tables" active-class="q-item-no-link-highlighting">
+          <q-item-section avatar>
+            <q-icon name="table_chart" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Cuentas Vista</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item to="/Contact" active-class="q-item-no-link-highlighting">
+          <q-item-section avatar>
+            <q-icon name="person" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Depositos Aplazo</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item to="/Checkout" active-class="q-item-no-link-highlighting">
+          <q-item-section avatar>
+            <q-icon name="check_circle_outline" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Descuento Documentos</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <!--        not completed-->
+        <q-item to="/Calendar" active-class="q-item-no-link-highlighting">
+          <q-item-section avatar>
+            <q-icon name="date_range" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Indicadores</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <!--        not completed-->
+        <!--        <q-item to="/Taskboard" active-class="q-item-no-link-highlighting">-->
+        <!--          <q-item-section avatar>-->
+        <!--            <q-icon name="done"/>-->
+        <!--          </q-item-section>-->
+        <!--          <q-item-section>-->
+        <!--            <q-item-label>Taskboard</q-item-label>-->
+        <!--          </q-item-section>-->
+        <!--        </q-item>-->
+
+        <q-item to="/Pagination" active-class="q-item-no-link-highlighting">
+          <q-item-section avatar>
+            <q-icon name="date_range" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Microfinanzas</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item to="/Ecommerce" active-class="q-item-no-link-highlighting">
+          <q-item-section avatar>
+            <q-icon name="shopping_cart" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Modelador Prestamos</q-item-label>
+          </q-item-section>
+        </q-item>
         <q-expansion-item icon="menu_open" label="Menu Levels">
           <q-item class="q-ml-xl" active-class="q-item-no-link-highlighting">
             <q-item-section>
@@ -75,7 +289,6 @@
             </q-expansion-item>
           </q-expansion-item>
         </q-expansion-item>
-
       </q-list>
     </q-drawer>
 
@@ -92,7 +305,7 @@ import { useQuasar } from "quasar";
 
 const linksList = [
   {
-    title: 'Docs',
+    title: 'Ahorro Programado',
     caption: 'quasar.dev',
     icon: 'school',
     link: 'https://quasar.dev'
