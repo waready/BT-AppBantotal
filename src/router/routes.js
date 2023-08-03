@@ -1,4 +1,4 @@
-import Store from 'src/store/index.js' 
+import Store from 'src/store/index.js'
 
 const routes = [
   {
@@ -7,7 +7,8 @@ const routes = [
     meta: { requiresAuth: true },
     children: [
       { path: '', component: () => import('pages/IndexPage.vue') },
-      { path: 'Productos', component: () => import('pages/ahorroProgramado/ObtenerProductos.vue') }
+      { path: 'Productos', component: () => import('pages/ahorroProgramado/ObtenerProductos.vue') },
+      { path: 'Agrupadores', component: () => import('pages/indicadores/Agrupadores.vue')}
     ]
   },
   {
