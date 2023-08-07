@@ -56,7 +56,7 @@ export default defineComponent({
   },
   methods:{
      async login() {
-    
+
       const dismiss = this.$q.notify({
         spinner: QSpinnerGears,
         message: '<p>Esperando al Servidor &nbsp;<span><i class="fa fa-server" aria-hidden="true"></i> <span> <p>',
@@ -75,7 +75,7 @@ export default defineComponent({
           dismiss() // will hide the notification above
         }, Math.random() * 2000)
       }
-      
+
       if(!result.success){
         this.showNotif(result.message)
       }else{
@@ -87,12 +87,12 @@ export default defineComponent({
       }
     },
     async registrar(user) {
-      await this.$store.dispatch("example/login",user);
+      await this.$store.dispatch("app/login",user);
       this.$router.push("/");
     },
     showNotif (message) {
       this.$q.notify({
-        position:'top-right',        
+        position:'top-right',
         message: message,
         color: 'negative',
         icon: 'report_problem'

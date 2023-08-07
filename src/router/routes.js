@@ -8,7 +8,13 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/IndexPage.vue') },
       { path: 'Productos', component: () => import('pages/ahorroProgramado/ObtenerProductos.vue') },
-      { path: 'Agrupadores', component: () => import('pages/indicadores/Agrupadores.vue')}
+      { path: 'Agrupadores', component: () => import('pages/indicadores/Agrupadores.vue')},
+      {
+        path: "/indicador/:id",
+        name: 'indicador',
+        component: () => import("pages/indicadores/Indicadores.vue"),
+        meta: { requiresAuth: true },
+      },
     ]
   },
   {
@@ -17,8 +23,8 @@ const routes = [
     component: () => import('pages/Login.vue'),
     meta: { requiresAuth: false },
     beforeEnter: (to, from, next) => {
-      console.log(Store.state.example.logged)
-      if(Store.state.example.logged) {
+      console.log(Store.state.app.logged)
+      if(Store.state.app.logged) {
         next({ path: "/" });
       } else {
         next();

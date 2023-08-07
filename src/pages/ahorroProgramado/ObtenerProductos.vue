@@ -32,7 +32,7 @@
         </div>
     </q-page>
 </template>
-  
+
 <script>
 import { defineComponent } from 'vue'
 import ApiService from "src/ApiService.js";
@@ -139,7 +139,7 @@ export default defineComponent({
                     if (response.Erroresnegocio.BTErrorNegocio[0].Descripcion == "Sesión inválida") {
                         setTimeout(() => {
                             AuthService.logout();
-                            this.$store.dispatch("logout");
+                            this.$store.dispatch("app/logout");
                             this.$router.push("/login");
                         }, 3000)
                     }else{
@@ -150,7 +150,7 @@ export default defineComponent({
                 }
                 dismiss()
             }).catch((e) => {
-                
+
                 this.showNotif(e.message)
                 setTimeout(() => {
                     dismiss() // will hide the notification above
@@ -165,7 +165,7 @@ export default defineComponent({
             //         dismiss() // will hide the notification above
             //     }, Math.random() * 2000)
             // }
-            
+
             // if (!result.success) {
             //     this.showNotif(result.message)
             // } else {
@@ -188,4 +188,3 @@ export default defineComponent({
 })
 </script>
 
-  

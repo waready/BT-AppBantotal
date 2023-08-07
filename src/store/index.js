@@ -1,7 +1,7 @@
 import { store } from 'quasar/wrappers'
 import { createStore } from 'vuex'
 
-import example from './module-example'
+import app from './module-example'
 
 /*
  * If not building with SSR mode, you can
@@ -27,7 +27,7 @@ import example from './module-example'
 // })
 // Define los módulos que quieres incluir en el store
 const modules = {
-  example, // Importa tus módulos aquí si es necesario
+  app, // Importa tus módulos aquí si es necesario
   // ... otros módulos ...
 }
 

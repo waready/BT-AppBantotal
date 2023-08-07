@@ -33,6 +33,15 @@
             <q-avatar size="26px">
               <img src="https://cdn.quasar.dev/img/boy-avatar.png">
             </q-avatar>
+            <q-menu>
+              <q-list style="min-width: 100px">
+                <messages></messages>
+                <q-card class="text-center no-shadow no-border">
+                  <q-btn label="Salir" @click="logout()" style="max-width: 120px !important;" flat dense
+                    class="text-indigo-8"></q-btn>
+                </q-card>
+              </q-list>
+            </q-menu>
           </q-btn>
         </div>
       </q-toolbar>
@@ -302,6 +311,7 @@
 import { defineComponent, ref } from 'vue'
 import EssentialLink from 'components/EssentialLink.vue'
 import { useQuasar } from "quasar";
+import AuthService from "src/auth-module/AuthServices.js";
 
 const linksList = [
   {
@@ -363,6 +373,14 @@ export default defineComponent({
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value
       }
+    }
+  },
+  methods: {
+    logout() {
+      console.log('llego')
+      AuthService.logout();
+      this.$store.dispatch("app/logout");
+      this.$router.push("/login");
     }
   }
 })
