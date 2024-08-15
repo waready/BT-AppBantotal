@@ -11,7 +11,7 @@ const axiosRequests = axios.create({
 });
 
 const http = axios.create({
-  baseURL: process.env.VUE_APP_APIREST_URL,
+  baseURL: process.env.VUE_APP_API_URL,
   headers: {
     'Content-Type': 'application/json',
     "Access-Control-Allow-Origin": "*",

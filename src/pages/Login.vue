@@ -48,9 +48,9 @@ import { QSpinnerGears } from 'quasar'
 
 export default defineComponent({
   name: 'Login',
-  setup(){
+  data(){
     return{
-      username:"",
+      username:"Bantotal@bantotal.com",
       password:"Bantotal2015",
     }
   },
@@ -65,25 +65,24 @@ export default defineComponent({
       });
 
       var result = await AuthService.login(
-        this.username.toUpperCase(),
+        this.username.toUpperCase(), // Convierte el username a mayúsculas
         this.password
-      );
+      ).then(response => {
+        dismiss(); // Cierra la notificación si el login es exitoso
+        return response;
+      }).catch(error => {
+        dismiss();
+        this.showNotif(error.response.data[0].message);
+        throw error; // Vuelve a lanzar el error si es necesario
+      });
+    
       if(result){
         dismiss()
+        this.registrar(result);
       }else{
         setTimeout(() => {
           dismiss() // will hide the notification above
         }, Math.random() * 2000)
-      }
-
-      if(!result.success){
-        this.showNotif(result.message)
-      }else{
-        if (!result.data.Erroresnegocio.BTErrorNegocio[0]) {
-          this.registrar(result.data);
-        } else {
-          this.showNotif(result.data.Erroresnegocio.BTErrorNegocio[0].Descripcion)
-        }
       }
     },
     async registrar(user) {
@@ -111,5 +110,3 @@ export default defineComponent({
 }
 
 </style>
-
-

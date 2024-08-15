@@ -2,7 +2,7 @@
 export function loginSuccess(state,user) {
     state.logged = true;
     state.local = true;
-    state.Token = user.SessionToken;
+    state.Token = user.token;
 }
 
  export function logout(state) {
