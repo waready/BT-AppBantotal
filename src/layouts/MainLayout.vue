@@ -63,15 +63,15 @@
             <q-item-label>Dashboard</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item to="/Dashboard2" active-class="q-item-no-link-highlighting">
+        <q-item to="/sistemas" active-class="q-item-no-link-highlighting">
           <q-item-section avatar>
-            <q-icon name="dashboard" />
+            <q-icon name="card_giftcard" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>CRM Dashboard</q-item-label>
+            <q-item-label>Sistemas</q-item-label>
           </q-item-section>
         </q-item>
-        <q-expansion-item icon="pages" label="Ahorro Programado">
+        <!-- <q-expansion-item icon="pages" label="Ahorro Programado">
           <q-list class="q-pl-lg">
             <q-item to="/Login-1" active-class="q-item-no-link-highlighting">
               <q-item-section avatar>
@@ -151,27 +151,27 @@
               </q-item-section>
             </q-item>
           </q-list>
-        </q-expansion-item>
+        </q-expansion-item> -->
 
-        <q-item to="/Mail" active-class="q-item-no-link-highlighting">
+        <q-item to="/areas" active-class="q-item-no-link-highlighting">
           <q-item-section avatar>
             <q-icon name="email" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>Calendarios</q-item-label>
+            <q-item-label>Areas Funcionales</q-item-label>
           </q-item-section>
         </q-item>
 
-        <q-item to="/directory" active-class="q-item-no-link-highlighting">
+        <q-item to="/paises" active-class="q-item-no-link-highlighting">
           <q-item-section avatar>
             <q-icon name="card_giftcard" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>CASH Management</q-item-label>
+            <q-item-label>Paìses</q-item-label>
           </q-item-section>
         </q-item>
 
-        <q-item to="/TreeTable" active-class="q-item-no-link-highlighting">
+        <!-- <q-item to="/TreeTable" active-class="q-item-no-link-highlighting">
           <q-item-section avatar>
             <q-icon name="list" />
           </q-item-section>
@@ -234,7 +234,7 @@
           <q-item-section>
             <q-item-label>Descuento Documentos</q-item-label>
           </q-item-section>
-        </q-item>
+        </q-item> -->
 
         <!--        not completed-->
         <q-item to="/Calendar" active-class="q-item-no-link-highlighting">
@@ -256,7 +256,7 @@
         <!--          </q-item-section>-->
         <!--        </q-item>-->
 
-        <q-item to="/Pagination" active-class="q-item-no-link-highlighting">
+        <!-- <q-item to="/Pagination" active-class="q-item-no-link-highlighting">
           <q-item-section avatar>
             <q-icon name="date_range" />
           </q-item-section>
@@ -271,7 +271,7 @@
           <q-item-section>
             <q-item-label>Modelador Prestamos</q-item-label>
           </q-item-section>
-        </q-item>
+        </q-item> -->
         <q-expansion-item icon="menu_open" label="Menu Levels">
           <q-item class="q-ml-xl" active-class="q-item-no-link-highlighting">
             <q-item-section>
