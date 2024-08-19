@@ -26,8 +26,8 @@
   </div>
 </template>
 <script>
-import ApiService from "src/ApiService.js";
-import AuthService from "src/auth-module/AuthServices.js";
+//import ApiService from "src/ApiService.js";
+//import AuthService from "src/auth-module/AuthServices.js";
 //import loadingVue from "@/components/Loading.vue";
 //import toastr from "toastr";
 export default {

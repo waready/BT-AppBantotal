@@ -35,7 +35,7 @@
 
 <script>
 import { defineComponent } from 'vue'
-import ApiService from "src/ApiService.js";
+//import ApiService from "src/ApiService.js";
 import { QSpinnerGears } from 'quasar'
 import  AuthService  from "src/auth-module/AuthServices.js";
 

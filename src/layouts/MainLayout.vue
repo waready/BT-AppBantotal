@@ -53,7 +53,7 @@
           <q-btn round dense flat style="color:red !important;">
             <i class="fa fa-heart fa-1.5x fa-beat"></i>
           </q-btn>
-          By waready
+          By Bantotal 
         </q-item-label>
         <q-item to="/" active-class="q-item-no-link-highlighting">
           <q-item-section avatar>
