@@ -3,7 +3,7 @@
     <!-- Botón para crear nuevo registro -->
     <q-btn 
       label="Crear Nuevo" 
-      color="primary" 
+      color="secondary" 
       @click="openCreateDialog" 
       class="q-mb-md" 
       rounded
@@ -43,7 +43,7 @@
           />
           <q-btn 
             flat 
-            color="negative" 
+            color="secondary" 
             icon="delete" 
             @click="confirmDelete(props.row.id)" 
             round
@@ -76,7 +76,7 @@
           ¿Estás seguro de que deseas eliminar este registro?
         </q-card-section>
         <q-card-actions>
-          <q-btn @click="deleteItem" color="negative" label="Eliminar" />
+          <q-btn @click="deleteItem" color="secondary" label="Eliminar" />
           <q-btn @click="deleteDialogVisible = false" color="secondary" label="Cancelar" />
         </q-card-actions>
       </q-card>

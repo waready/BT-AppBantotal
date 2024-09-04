@@ -1,23 +1,23 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
-      <q-toolbar>
+      <q-toolbar class="bg-white text-dark">
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title>
           BT-Servicess
         </q-toolbar-title>
 
-        <!-- <div>Quasar v{{ $q.version }}</div> -->
+        <div>BT v{{ $q.version }}</div>
         <div class="q-gutter-sm row items-center no-wrap">
           <q-btn round dense flat color="white" :icon="false ? 'fullscreen_exit' : 'fullscreen'">
           </q-btn>
 
-          <q-btn round dense flat>
+          <!-- <q-btn round dense flat>
             <q-img src="~assets/cat.png" width="35px" />
-          </q-btn>
-          <q-btn round dense flat color="white" icon="notifications">
-            <q-badge color="red" text-color="white" floating>
+          </q-btn> -->
+          <!-- <q-btn round dense flat color="dark" icon="notifications">
+            <q-badge color="red" text-color="dark" floating>
               3
             </q-badge>
             <q-menu>
@@ -28,7 +28,7 @@
                 </q-card>
               </q-list>
             </q-menu>
-          </q-btn>
+          </q-btn> -->
           <q-btn round flat>
             <q-avatar size="26px">
               <img src="https://cdn.quasar.dev/img/boy-avatar.png">
@@ -47,7 +47,7 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered class="bg-primary text-white">
+    <q-drawer v-model="leftDrawerOpen" show-if-above bordered class="bg-dark text-white">
       <q-list>
         <q-item-label header class="text-white">
           <q-btn round dense flat style="color:red !important;">
