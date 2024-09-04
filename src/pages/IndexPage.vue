@@ -1,51 +1,63 @@
 <template>
   <q-page class="q-pa-md">
     <!-- Botón para crear nuevo registro -->
-    <q-btn 
-      label="Crear Nuevo" 
-      color="secondary" 
-      @click="openCreateDialog" 
-      class="q-mb-md" 
+    <q-btn
+      label="Crear Nuevo"
+      color="secondary"
+      @click="openCreateDialog"
+      class="q-mb-md"
       rounded
     />
 
     <!-- Tabla con funcionalidades de editar y eliminar -->
-    <q-table 
-      :rows="inventarios" 
-      :columns="columns" 
-      row-key="id" 
-      :loading="loading" 
+    <!-- <q-table
+      :rows="inventarios"
+      :columns="columns"
+      row-key="id"
+      :loading="loading"
       :pagination.sync="pagination"
       :rows-per-page-options="[10, 20, 50]"
       class="q-mb-md"
+    > -->
+    <q-table
+      :rows="inventarios"
+      :columns="columns"
+      row-key="id"
+      :loading="loading"
+      :pagination.sync="pagination"
+      :rows-per-page-options="[10, 20, 50]"
+      :rows-per-page-label="'Registros por página:'"
+      :pagination-label="getPaginationLabel"
+      @update:pagination="onPaginationUpdate"
+      class="q-mb-md"
     >
       <template v-slot:top-right>
-        <q-input 
-          filled 
-          debounce="300" 
-          placeholder="Buscar..." 
-          v-model="search" 
-          @input="onSearch" 
-          clearable 
+        <q-input
+          filled
+          debounce="300"
+          placeholder="Buscar..."
+          v-model="search"
+          @input="onSearch"
+          clearable
         />
       </template>
 
       <!-- Slot para agregar botones de acción en cada fila -->
       <template v-slot:body-cell-actions="props">
         <q-td :props="props" class="q-pa-none">
-          <q-btn 
-            flat 
-            color="primary" 
-            icon="edit" 
-            @click="openEditDialog(props.row)" 
+          <q-btn
+            flat
+            color="primary"
+            icon="edit"
+            @click="openEditDialog(props.row)"
             class="q-mr-xs"
             round
           />
-          <q-btn 
-            flat 
-            color="secondary" 
-            icon="delete" 
-            @click="confirmDelete(props.row.id)" 
+          <q-btn
+            flat
+            color="secondary"
+            icon="delete"
+            @click="confirmDelete(props.row.id)"
             round
           />
         </q-td>
@@ -58,9 +70,42 @@
         <q-card-section>
           <q-input v-model="currentItem.codigo" label="Código" outlined />
           <q-input v-model="currentItem.descripcion" label="Descripción" outlined />
-          <q-input v-model="currentItem.area_funcional" label="Área Funcional" outlined />
-          <q-input v-model="currentItem.sistema" label="Sistema" outlined />
+
+          <q-select
+            v-model="currentItem.area_funcional_id"
+            label="Área Funcional"
+            :options="areasFuncionales"
+            option-value="id"
+            option-label="nombre"
+            emit-value
+            map-options
+            outlined
+          />
+
+          <q-select
+            v-model="currentItem.sistema_id"
+            label="Sistema"
+            :options="sistemas"
+            option-value="id"
+            option-label="sistema"
+            emit-value
+            map-options
+            outlined
+          />
+
+          <q-select
+            v-model="currentItem.pais_id"
+            :options="paises"
+            label="Pais"
+            option-label="nombre"
+            option-value="id"
+            emit-value
+            map-options
+            outlined
+          />
+
           <q-input v-model="currentItem.en_desarrollo" label="En Desarrollo" outlined />
+          {{ currentItem }}
         </q-card-section>
         <q-card-actions>
           <q-btn @click="saveItem" color="primary" label="Guardar" />
@@ -105,11 +150,17 @@ export default {
       columns: [
         { name: 'codigo', label: 'Código', field: 'codigo', align: 'left', sortable: true },
         { name: 'descripcion', label: 'Descripción', field: 'descripcion', align: 'left', sortable: true },
-        { name: 'area_funcional', label: 'Área Funcional', field: 'area_funcional', align: 'left', sortable: true },
-        { name: 'sistema', label: 'Sistema', field: 'sistema', align: 'left', sortable: true },
+        { name: 'area_funcional', label: 'Área Funcional', field: row => row.areaFuncional?.nombre, align: 'left', sortable: true },
+        { name: 'sistema', label: 'Sistema', field: row => row.sistema?.sistema, align: 'left', sortable: true },
+        { name: 'pais', label: 'País', field: row => row.pais?.nombre, align: 'left', sortable: true },
+        { name: 'usuario', label: 'Usuario', field: row => row.usuario?.username, align: 'left', sortable: true },
         { name: 'en_desarrollo', label: 'En Desarrollo', field: 'en_desarrollo', align: 'center', sortable: true },
         { name: 'actions', label: 'Acciones', align: 'center', field: 'actions' }
-      ]
+      ],
+      paises: [],
+      sistemas: [],
+      areasFuncionales: [],
+      usuarios: []
     }
   },
   watch: {
@@ -126,8 +177,24 @@ export default {
   },
   mounted() {
     this.fetchInventarios()
+    this.fetchPaises()
+    this.fetchSistemas()
+    this.fetchAreasFuncionales()
   },
   methods: {
+    getPaginationLabel(firstRowIndex, endRowIndex, totalRowsNumber) {
+      return `${firstRowIndex + 1}-${endRowIndex} de ${totalRowsNumber}`
+    },
+    onPaginationUpdate(newPagination) {
+      // Capturar el evento de paginación
+      alert(`Página cambiada a: ${newPagination.page}, Mostrando: ${newPagination.rowsPerPage} registros por página`)
+
+      // Actualizar la paginación en el estado para reflejar los cambios
+      this.pagination = newPagination;
+
+      // Puedes llamar a la función para actualizar los datos si es necesario
+      this.fetchInventarios();
+    },
     async fetchInventarios() {
       this.loading = true
       try {
@@ -147,6 +214,30 @@ export default {
         console.error('Error al obtener los inventarios:', error)
       } finally {
         this.loading = false
+      }
+    },
+    async fetchPaises() {
+      try {
+        const response = await this.$axios.get('http://127.0.0.1:3333/api/v1/paises')
+        this.paises = response.data
+      } catch (error) {
+        console.error('Error al obtener los países:', error)
+      }
+    },
+    async fetchSistemas() {
+      try {
+        const response = await this.$axios.get('http://127.0.0.1:3333/api/v1/sistemas')
+        this.sistemas = response.data
+      } catch (error) {
+        console.error('Error al obtener los sistemas:', error)
+      }
+    },
+    async fetchAreasFuncionales() {
+      try {
+        const response = await this.$axios.get('http://127.0.0.1:3333/api/v1/areas')
+        this.areasFuncionales = response.data
+      } catch (error) {
+        console.error('Error al obtener las áreas:', error)
       }
     },
     onSearch() {
@@ -194,21 +285,5 @@ export default {
 <style scoped>
 .q-page {
   background-color: #f9f9f9;
-}
-
-.q-btn {
-  font-weight: 600;
-}
-
-.q-card {
-  max-width: 600px;
-}
-
-.q-card-section {
-  padding: 16px;
-}
-
-.q-input {
-  margin-bottom: 16px;
 }
 </style>
