@@ -1,69 +1,23 @@
 <template>
   <q-page class="q-pa-md">
     <!-- Botón para crear nuevo registro -->
-    <q-btn
-      label="Crear Nuevo"
-      color="secondary"
-      @click="openCreateDialog"
-      class="q-mb-md"
-      rounded
-    />
+    <q-btn label="Crear Nuevo" color="secondary" @click="openCreateDialog" class="q-mb-md" rounded />
 
-    <!-- Tabla con funcionalidades de editar y eliminar -->
-    <!-- <q-table
-      :rows="inventarios"
-      :columns="columns"
-      row-key="id"
-      :loading="loading"
-      :pagination.sync="pagination"
-      :rows-per-page-options="[10, 20, 50]"
-      class="q-mb-md"
-    > -->
-    <q-table
-      :rows="inventarios"
-      :columns="columns"
-      row-key="id"
-      :loading="loading"
-      :pagination.sync="pagination"
-      :rows-per-page-options="[10, 20, 50]"
-      :rows-per-page-label="'Registros por página:'"
-      :pagination-label="getPaginationLabel"
-      @update:pagination="onPaginationUpdate"
-      class="q-mb-md"
-    >
+    <q-table :rows="inventarios" :columns="columns" row-key="id" :loading="loading" v-model:pagination="pagination"
+      :rows-per-page-label="'Registros por página:'" @request="onRequest" class="q-mb-md">
       <template v-slot:top-right>
-        <q-input
-          filled
-          debounce="300"
-          placeholder="Buscar..."
-          v-model="search"
-          @input="onSearch"
-          clearable
-        />
+        <q-input filled debounce="300" placeholder="Buscar..." v-model="search" @input="onSearch" clearable />
       </template>
 
       <!-- Slot para agregar botones de acción en cada fila -->
       <template v-slot:body-cell-actions="props">
         <q-td :props="props" class="q-pa-none">
-          <q-btn
-            flat
-            color="primary"
-            icon="edit"
-            @click="openEditDialog(props.row)"
-            class="q-mr-xs"
-            round
-          />
-          <q-btn
-            flat
-            color="secondary"
-            icon="delete"
-            @click="confirmDelete(props.row.id)"
-            round
-          />
+          <q-btn flat color="primary" icon="edit" @click="openEditDialog(props.row)" class="q-mr-xs" round />
+          <q-btn flat color="secondary" icon="delete" @click="confirmDelete(props.row.id)" round />
         </q-td>
       </template>
     </q-table>
-
+    {{ pagination }}
     <!-- Diálogo para crear y editar registros -->
     <q-dialog v-model="dialogVisible">
       <q-card class="q-pa-md">
@@ -71,38 +25,14 @@
           <q-input v-model="currentItem.codigo" label="Código" outlined />
           <q-input v-model="currentItem.descripcion" label="Descripción" outlined />
 
-          <q-select
-            v-model="currentItem.area_funcional_id"
-            label="Área Funcional"
-            :options="areasFuncionales"
-            option-value="id"
-            option-label="nombre"
-            emit-value
-            map-options
-            outlined
-          />
+          <q-select v-model="currentItem.area_funcional_id" label="Área Funcional" :options="areasFuncionales"
+            option-value="id" option-label="nombre" emit-value map-options outlined />
 
-          <q-select
-            v-model="currentItem.sistema_id"
-            label="Sistema"
-            :options="sistemas"
-            option-value="id"
-            option-label="sistema"
-            emit-value
-            map-options
-            outlined
-          />
+          <q-select v-model="currentItem.sistema_id" label="Sistema" :options="sistemas" option-value="id"
+            option-label="sistema" emit-value map-options outlined />
 
-          <q-select
-            v-model="currentItem.pais_id"
-            :options="paises"
-            label="Pais"
-            option-label="nombre"
-            option-value="id"
-            emit-value
-            map-options
-            outlined
-          />
+          <q-select v-model="currentItem.pais_id" :options="paises" label="Pais" option-label="nombre" option-value="id"
+            emit-value map-options outlined />
 
           <q-input v-model="currentItem.en_desarrollo" label="En Desarrollo" outlined />
           {{ currentItem }}
@@ -182,26 +112,14 @@ export default {
     this.fetchAreasFuncionales()
   },
   methods: {
-    getPaginationLabel(firstRowIndex, endRowIndex, totalRowsNumber) {
-      return `${firstRowIndex + 1}-${endRowIndex} de ${totalRowsNumber}`
-    },
-    onPaginationUpdate(newPagination) {
-      // Capturar el evento de paginación
-      alert(`Página cambiada a: ${newPagination.page}, Mostrando: ${newPagination.rowsPerPage} registros por página`)
-
-      // Actualizar la paginación en el estado para reflejar los cambios
-      this.pagination = newPagination;
-
-      // Puedes llamar a la función para actualizar los datos si es necesario
-      this.fetchInventarios();
-    },
     async fetchInventarios() {
       this.loading = true
       try {
+        const limit = this.pagination.rowsPerPage == 0 ? this.pagination.rowsNumber : this.pagination.rowsPerPage;
         const response = await this.$axios.get('http://127.0.0.1:3333/api/v1/inventarios', {
           params: {
             page: this.pagination.page,
-            limit: this.pagination.rowsPerPage,
+            limit: limit,
             sortBy: this.pagination.sortBy || 'id',
             order: this.pagination.descending ? 'desc' : 'asc',
             search: this.search
@@ -215,6 +133,14 @@ export default {
       } finally {
         this.loading = false
       }
+    },
+    onRequest(props) {
+      const { page, rowsPerPage, sortBy, descending } = props.pagination;
+      this.pagination.page = page;
+      this.pagination.rowsPerPage = rowsPerPage;
+      this.pagination.sortBy = sortBy;
+      this.pagination.descending = descending;
+      this.fetchInventarios(); // Llama a la función para obtener los datos con la nueva configuración
     },
     async fetchPaises() {
       try {
