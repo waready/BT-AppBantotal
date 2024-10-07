@@ -12,12 +12,12 @@
       <!-- Slot para agregar botones de acción en cada fila -->
       <template v-slot:body-cell-actions="props">
         <q-td :props="props" class="q-pa-none">
-          <q-btn flat color="primary" icon="edit" @click="openEditDialog(props.row)" class="q-mr-xs" round />
-          <q-btn flat color="secondary" icon="delete" @click="confirmDelete(props.row.id)" round />
+          <q-btn flat color="secondary" icon="edit" @click="openEditDialog(props.row)" class="q-mr-xs" round />
+          <q-btn flat color="negative" icon="delete" @click="confirmDelete(props.row.id)" round />
         </q-td>
       </template>
     </q-table>
-    {{ pagination }}
+    
     <!-- Diálogo para crear y editar registros -->
     <q-dialog v-model="dialogVisible">
       <q-card class="q-pa-md">
@@ -35,11 +35,11 @@
             emit-value map-options outlined />
 
           <q-input v-model="currentItem.en_desarrollo" label="En Desarrollo" outlined />
-          {{ currentItem }}
+
         </q-card-section>
         <q-card-actions>
-          <q-btn @click="saveItem" color="primary" label="Guardar" />
-          <q-btn @click="dialogVisible = false" color="secondary" label="Cancelar" />
+          <q-btn @click="saveItem" color="secondary" label="Guardar" />
+          <q-btn @click="dialogVisible = false" color="negative" label="Cancelar" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -51,8 +51,8 @@
           ¿Estás seguro de que deseas eliminar este registro?
         </q-card-section>
         <q-card-actions>
-          <q-btn @click="deleteItem" color="secondary" label="Eliminar" />
-          <q-btn @click="deleteDialogVisible = false" color="secondary" label="Cancelar" />
+          <q-btn @click="deleteItem" color="negative" label="Eliminar" />
+          <q-btn @click="deleteDialogVisible = false" color="negative" label="Cancelar" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -116,7 +116,7 @@ export default {
       this.loading = true
       try {
         const limit = this.pagination.rowsPerPage == 0 ? this.pagination.rowsNumber : this.pagination.rowsPerPage;
-        const response = await this.$axios.get('http://127.0.0.1:3333/api/v1/inventarios', {
+        const response = await this.$axios.get('http://104.131.72.170:3333/api/v1/inventarios', {
           params: {
             page: this.pagination.page,
             limit: limit,
@@ -144,7 +144,7 @@ export default {
     },
     async fetchPaises() {
       try {
-        const response = await this.$axios.get('http://127.0.0.1:3333/api/v1/paises')
+        const response = await this.$axios.get('http://104.131.72.170:3333/api/v1/paises')
         this.paises = response.data
       } catch (error) {
         console.error('Error al obtener los países:', error)
@@ -152,7 +152,7 @@ export default {
     },
     async fetchSistemas() {
       try {
-        const response = await this.$axios.get('http://127.0.0.1:3333/api/v1/sistemas')
+        const response = await this.$axios.get('http://104.131.72.170:3333/api/v1/sistemas')
         this.sistemas = response.data
       } catch (error) {
         console.error('Error al obtener los sistemas:', error)
@@ -160,7 +160,7 @@ export default {
     },
     async fetchAreasFuncionales() {
       try {
-        const response = await this.$axios.get('http://127.0.0.1:3333/api/v1/areas')
+        const response = await this.$axios.get('http://104.131.72.170:3333/api/v1/areas')
         this.areasFuncionales = response.data
       } catch (error) {
         console.error('Error al obtener las áreas:', error)
@@ -181,9 +181,9 @@ export default {
     async saveItem() {
       try {
         if (this.currentItem.id) {
-          await this.$axios.put(`http://127.0.0.1:3333/api/v1/inventarios/${this.currentItem.id}`, this.currentItem)
+          await this.$axios.put(`http://104.131.72.170:3333/api/v1/inventarios/${this.currentItem.id}`, this.currentItem)
         } else {
-          await this.$axios.post('http://127.0.0.1:3333/api/v1/inventarios', this.currentItem)
+          await this.$axios.post('http://104.131.72.170:3333/api/v1/inventarios', this.currentItem)
         }
         this.dialogVisible = false
         this.fetchInventarios()
@@ -197,7 +197,7 @@ export default {
     },
     async deleteItem() {
       try {
-        await this.$axios.delete(`http://127.0.0.1:3333/api/v1/inventarios/${this.itemToDelete}`)
+        await this.$axios.delete(`http://104.131.72.170:3333/api/v1/inventarios/${this.itemToDelete}`)
         this.deleteDialogVisible = false
         this.fetchInventarios()
       } catch (error) {
@@ -209,7 +209,24 @@ export default {
 </script>
 
 <style scoped>
+
 .q-page {
   background-color: #f9f9f9;
+}
+
+.q-btn {
+  font-weight: 600;
+}
+
+.q-card {
+  max-width: 600px;
+}
+
+.q-card-section {
+  padding: 16px;
+}
+
+.q-input {
+  margin-bottom: 16px;
 }
 </style>
