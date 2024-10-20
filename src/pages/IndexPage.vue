@@ -17,7 +17,7 @@
         </q-td>
       </template>
     </q-table>
-    
+
     <!-- Diálogo para crear y editar registros -->
     <q-dialog v-model="dialogVisible">
       <q-card class="q-pa-md">
@@ -60,6 +60,8 @@
 </template>
 
 <script>
+import ApiService from 'src/ApiService';
+
 export default {
   data() {
     return {
@@ -116,18 +118,16 @@ export default {
       this.loading = true
       try {
         const limit = this.pagination.rowsPerPage == 0 ? this.pagination.rowsNumber : this.pagination.rowsPerPage;
-        const response = await this.$axios.get('http://104.131.72.170:3333/api/v1/inventarios', {
-          params: {
-            page: this.pagination.page,
-            limit: limit,
-            sortBy: this.pagination.sortBy || 'id',
-            order: this.pagination.descending ? 'desc' : 'asc',
-            search: this.search
-          }
-        })
-
-        this.inventarios = response.data.data
-        this.pagination.rowsNumber = response.data.total
+        let params = {
+          page: this.pagination.page,
+          limit: limit,
+          sortBy: this.pagination.sortBy || 'id',
+          order: this.pagination.descending ? 'desc' : 'asc',
+          search: this.search
+        }
+        const response = await ApiService.GetInventarios(params)
+        this.inventarios = response.data
+        this.pagination.rowsNumber = response.total
       } catch (error) {
         console.error('Error al obtener los inventarios:', error)
       } finally {
@@ -144,15 +144,16 @@ export default {
     },
     async fetchPaises() {
       try {
-        const response = await this.$axios.get('http://104.131.72.170:3333/api/v1/paises')
+        const response = await ApiService.GetPaises()
         this.paises = response.data
+
       } catch (error) {
         console.error('Error al obtener los países:', error)
       }
     },
     async fetchSistemas() {
       try {
-        const response = await this.$axios.get('http://104.131.72.170:3333/api/v1/sistemas')
+        const response = await ApiService.GetSistemas()
         this.sistemas = response.data
       } catch (error) {
         console.error('Error al obtener los sistemas:', error)
@@ -160,7 +161,7 @@ export default {
     },
     async fetchAreasFuncionales() {
       try {
-        const response = await this.$axios.get('http://104.131.72.170:3333/api/v1/areas')
+        const response = await ApiService.GetAreasFuncionales()
         this.areasFuncionales = response.data
       } catch (error) {
         console.error('Error al obtener las áreas:', error)
@@ -181,9 +182,9 @@ export default {
     async saveItem() {
       try {
         if (this.currentItem.id) {
-          await this.$axios.put(`http://104.131.72.170:3333/api/v1/inventarios/${this.currentItem.id}`, this.currentItem)
+          await ApiService.SetInventario(this.currentItem.id,this.currentItem)
         } else {
-          await this.$axios.post('http://104.131.72.170:3333/api/v1/inventarios', this.currentItem)
+          await ApiService.CreateInventario(this.currentItem)
         }
         this.dialogVisible = false
         this.fetchInventarios()
@@ -197,7 +198,7 @@ export default {
     },
     async deleteItem() {
       try {
-        await this.$axios.delete(`http://104.131.72.170:3333/api/v1/inventarios/${this.itemToDelete}`)
+        await ApiService.DeleteInventario(this.itemToDelete)
         this.deleteDialogVisible = false
         this.fetchInventarios()
       } catch (error) {
@@ -209,7 +210,6 @@ export default {
 </script>
 
 <style scoped>
-
 .q-page {
   background-color: #f9f9f9;
 }
@@ -227,6 +227,10 @@ export default {
 }
 
 .q-input {
+  margin-bottom: 16px;
+}
+
+.q-select {
   margin-bottom: 16px;
 }
 </style>

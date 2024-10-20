@@ -1,97 +1,75 @@
 import http from "src/utils/http.js";
-import store from "src/store";
 
-var prefijo = process.env.VUE_APP_API_PREFIJO
 // var version = process.env.VUE_APP_API_VERSION;
 class ApiService {
-  static async postRequest(url, data) {
-    var token = store.state.app.Token;
-    //console.log("token", store.state.app.Token);
-    let user = {
-      Btinreq: {
-        Requerimiento: 1,
-        Canal: "BTDIGITAL",
-        Usuario: "INSTALADOR",
-        Token: token,
-        Device: 1
-      }
-    };
-    return (await http.post(url, { ...user, ...data })).data;
-  }
-  /** Ahorro Programado **/
-  static async GetProductos() {
-    return this.postRequest(
-      "com.dlya.bantotal." + prefijo + "_BTAhorroProgramado?ObtenerProductos",
-      {}
-    );
-  }
-  /** Ahorro Programado **/
 
-  /** Indicadores **/
-  static async GetAgrupadores() {
-    return this.postRequest(
-      "com.dlya.bantotal." + prefijo + "_BTIndicadores?ObtenerAgrupadores",
-      {}
-    );
+  // inventario
+  static async GetInventarios(data){
+    return (await http.get("inventarios", {params:data} )).data;
   }
 
-  static async GetIndicadores(id) {
-    return this.postRequest(
-      "com.dlya.bantotal." + prefijo + "_BTIndicadores?ObtenerIndicadores",
-      { agrupadorId: parseInt(id) }
-    );
+  static async SetInventario(id ,data){
+    return (await http.put(`inventarios/${id}`, data)).data;
   }
 
-  static async getSucursalesCajas() {
-    return this.postRequest(
-      "com.dlya.bantotal." +
-        prefijo +
-        "_BTIndicadores?ObtenerSucursalesCajas",
-      {}
-    );
+  static async CreateInventario(data){
+    return (await http.post("inventarios", data)).data;
   }
 
-  static async getCotizaciones() {
-    return this.postRequest(
-      "com.dlya.bantotal." + prefijo + "_BTIndicadores?ObtenerMonedasIndices",
-      {}
-    );
+  static async DeleteInventario(id){
+    return (await http.delete(`inventarios/${id}`)).data;
   }
 
-  static async getCuadreMonedaSaldos() {
-    return this.postRequest(
-      "com.dlya.bantotal." +
-        prefijo +
-        "_BTIndicadores?ObtenerCierreSaldosPorMoneda",
-      {}
-    );
+// Sistemas
+  static async GetSistemas(data){
+    return (await http.get("sistemas", {params:data})).data;
   }
 
-  static async getCondicionesGenerales() {
-    return this.postRequest(
-      "com.dlya.bantotal." +
-        prefijo +
-        "_BTIndicadores?ObtenerCondicionesGenerales",
-      {}
-    );
+  static async SetSistemas(id ,data){
+    return (await http.put(`sistemas/${id}`, data)).data;
   }
 
-  static async getRubroBolsas() {
-    return this.postRequest(
-      "com.dlya.bantotal." + prefijo + "_BTIndicadores?ObtenerRubrosBolsas",
-      {}
-    );
+  static async CreateSistemas(data){
+    return (await http.post("sistemas", data)).data;
   }
 
-  static async getTansaccionEstado() {
-    return this.postRequest(
-      "com.dlya.bantotal." +
-        prefijo +
-        "_BTIndicadores?ObtenerTransaccionesEstados",
-      {}
-    );
+  static async DeleteSistemas(id){
+    return (await http.delete(`sistemas/${id}`)).data;
   }
-  /** Indicadores **/
+
+// Paices
+  static async GetPaises(data){
+    return (await http.get("paises", {params:data})).data;
+  }
+
+  static async SetPaises(id ,data){
+    return (await http.put(`paises/${id}`, data)).data;
+  }
+
+  static async CreatePaises(data){
+    return (await http.post("paises", data)).data;
+  }
+
+  static async DeletePaises(id){
+    return (await http.delete(`paises/${id}`)).data;
+  }
+
+// Areas
+  static async GetAreasFuncionales(data){
+    return (await http.get("areas", {params:data})).data;
+  }
+
+  static async SetAreasFuncionales(id ,data){
+    return (await http.put(`areas/${id}`, data)).data;
+  }
+
+  static async CreateAreasFuncionales(data){
+    return (await http.post("areas", data)).data;
+  }
+
+  static async DeleteAreasFuncionales(id){
+    return (await http.delete(`areas/${id}`)).data;
+  }
 }
 
 export default ApiService;

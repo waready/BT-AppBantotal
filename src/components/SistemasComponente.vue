@@ -15,7 +15,7 @@
         </q-td>
       </template>
     </q-table>
-    
+
 
     <q-dialog v-model="dialogVisible">
       <q-card class="q-pa-md">
@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import ApiService from 'src/ApiService'
 export default {
   data() {
     return {
@@ -93,18 +94,17 @@ export default {
       this.loading = true
       try {
         const limit = this.pagination.rowsPerPage == 0 ? this.pagination.rowsNumber : this.pagination.rowsPerPage;
-        const response = await this.$axios.get('http://104.131.72.170:3333/api/v1/sistemas', {
-          params: {
-            page: this.pagination.page,
-            limit: limit,
-            sortBy: this.pagination.sortBy || 'id',
-            order: this.pagination.descending ? 'desc' : 'asc',
-            search: this.search
-          }
-        })
+        let params = {
+          page: this.pagination.page,
+          limit: limit,
+          sortBy: this.pagination.sortBy || 'id',
+          order: this.pagination.descending ? 'desc' : 'asc',
+          search: this.search
+        }
+        const response = await ApiService.GetSistemas(params)
 
-        this.sistemas = response.data.data || []  // Verificación adicional
-        this.pagination.rowsNumber = response.data.total
+        this.sistemas = response.data || []  // Verificación adicional
+        this.pagination.rowsNumber = response.total
       } catch (error) {
         console.error('Error al obtener los sistemas:', error)
       } finally {
@@ -134,9 +134,9 @@ export default {
     async saveItem() {
       try {
         if (this.currentItem.id) {
-          await this.$axios.put(`http://104.131.72.170:3333/api/v1/sistemas/${this.currentItem.id}`, this.currentItem)
+          await ApiService.SetSistemas(this.currentItem.id,this.currentItem)
         } else {
-          await this.$axios.post('http://104.131.72.170:3333/api/v1/sistemas', this.currentItem)
+          await ApiService.CreateSistemas(this.currentItem)
         }
         this.dialogVisible = false
         this.fetchSistemas()
@@ -150,7 +150,7 @@ export default {
     },
     async deleteItem() {
       try {
-        await this.$axios.delete(`http://104.131.72.170:3333/api/v1/sistemas/${this.itemToDelete}`)
+        await ApiService.DeleteSistemas(this.itemToDelete)
         this.deleteDialogVisible = false
         this.fetchSistemas()
       } catch (error) {

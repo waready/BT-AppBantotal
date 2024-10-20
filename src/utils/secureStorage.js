@@ -16,7 +16,7 @@ function makeSecureStorage(storage = new Storage()) {
     },
     decrypt: function decrypt(data) {
       data = CryptoJS.AES.decrypt(data, SECRET_KEY);
-      data = data.toString(CryptoJS.enc.Utf8);
+      data = data.toString(CryptoJS);
       return data;
     }
   });
@@ -24,9 +24,9 @@ function makeSecureStorage(storage = new Storage()) {
 
 var secureStorage = makeSecureStorage(localStorage);
 
-// if (process.env.NODE_ENV == "development") {
-//   secureStorage = localStorage;
-// }
+if (process.env.NODE_ENV == "development") {
+   secureStorage = localStorage;
+}
 
 export { secureStorage };
 export default secureStorage;

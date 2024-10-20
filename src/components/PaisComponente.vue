@@ -1,49 +1,49 @@
 <template>
   <q-page class="q-pa-md">
-    <q-btn 
-      label="Crear Nuevo País" 
-      color="secondary" 
-      @click="openCreateDialog" 
-      class="q-mb-md" 
+    <q-btn
+      label="Crear Nuevo País"
+      color="secondary"
+      @click="openCreateDialog"
+      class="q-mb-md"
       rounded
     />
 
-    <q-table 
-      :rows="paises" 
-      :columns="columns" 
-      row-key="id" 
-      :loading="loading" 
+    <q-table
+      :rows="paises"
+      :columns="columns"
+      row-key="id"
+      :loading="loading"
       v-model:pagination="pagination"
       :rows-per-page-label="'Registros por página:'"
       @request="onRequest"
       class="q-mb-md"
     >
       <template v-slot:top-right>
-        <q-input 
-          filled 
-          debounce="300" 
-          placeholder="Buscar..." 
-          v-model="search" 
-          @input="onSearch" 
-          clearable 
+        <q-input
+          filled
+          debounce="300"
+          placeholder="Buscar..."
+          v-model="search"
+          @input="onSearch"
+          clearable
         />
       </template>
 
       <template v-slot:body-cell-actions="props">
         <q-td :props="props" class="q-pa-none">
-          <q-btn 
-            flat 
-            color="secondary" 
-            icon="edit" 
-            @click="openEditDialog(props.row)" 
+          <q-btn
+            flat
+            color="secondary"
+            icon="edit"
+            @click="openEditDialog(props.row)"
             class="q-mr-xs"
             round
           />
-          <q-btn 
-            flat 
-            color="negative" 
-            icon="delete" 
-            @click="confirmDelete(props.row.id)" 
+          <q-btn
+            flat
+            color="negative"
+            icon="delete"
+            @click="confirmDelete(props.row.id)"
             round
           />
         </q-td>
@@ -78,6 +78,8 @@
 </template>
 
 <script>
+import ApiService from 'src/ApiService'
+
 export default {
   data() {
     return {
@@ -122,18 +124,17 @@ export default {
       this.loading = true
       try {
         const limit = this.pagination.rowsPerPage === 0 ? this.pagination.rowsNumber : this.pagination.rowsPerPage
-        const response = await this.$axios.get('http://104.131.72.170:3333/api/v1/paises', {
-          params: {
-            page: this.pagination.page,
-            limit,
-            sortBy: this.pagination.sortBy || 'id',
-            order: this.pagination.descending ? 'desc' : 'asc',
-            search: this.search
-          }
-        })
+        let params = {
+          page: this.pagination.page,
+          limit: limit,
+          sortBy: this.pagination.sortBy || 'id',
+          order: this.pagination.descending ? 'desc' : 'asc',
+          search: this.search
+        }
+        const response = await ApiService.GetPaises(params)
 
-        this.paises = response.data.data || []
-        this.pagination.rowsNumber = response.data.total || 0
+        this.paises = response.data || []
+        this.pagination.rowsNumber = response.total || 0
       } catch (error) {
         console.error('Error al obtener los países:', error)
       } finally {
@@ -163,9 +164,9 @@ export default {
     async saveItem() {
       try {
         if (this.currentItem.id) {
-          await this.$axios.put(`http://104.131.72.170:3333/api/v1/paises/${this.currentItem.id}`, this.currentItem)
+          await ApiService.SetPaises(this.currentItem.id,this.currentItem)
         } else {
-          await this.$axios.post('http://104.131.72.170:3333/api/v1/paises', this.currentItem)
+          await ApiService.CreatePaises(this.currentItem)
         }
         this.dialogVisible = false
         this.fetchPaises()
@@ -179,7 +180,7 @@ export default {
     },
     async deleteItem() {
       try {
-        await this.$axios.delete(`http://104.131.72.170:3333/api/v1/paises/${this.itemToDelete}`)
+        await ApiService.DeletePaises(this.itemToDelete)
         this.deleteDialogVisible = false
         this.fetchPaises()
       } catch (error) {
