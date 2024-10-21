@@ -25,10 +25,17 @@
           <q-input v-model="currentItem.codigo" label="Código" outlined />
           <q-input v-model="currentItem.descripcion" label="Descripción" outlined />
 
+          <q-select v-model="currentItem.area_funcional_id" label="Datos" :options="areasFuncionales"
+            option-value="id" option-label="nombre" emit-value map-options outlined />
+
+
           <q-select v-model="currentItem.area_funcional_id" label="Área Funcional" :options="areasFuncionales"
             option-value="id" option-label="nombre" emit-value map-options outlined />
 
           <q-select v-model="currentItem.sistema_id" label="Sistema" :options="sistemas" option-value="id"
+            option-label="sistema" emit-value map-options outlined />
+
+          <q-select v-model="currentItem.sistema_id" label="Estado" :options="sistemas" option-value="id"
             option-label="sistema" emit-value map-options outlined />
 
           <q-select v-model="currentItem.pais_id" :options="paises" label="Pais" option-label="nombre" option-value="id"
