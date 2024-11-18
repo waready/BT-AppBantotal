@@ -18,7 +18,7 @@
 
 
     <q-dialog v-model="dialogVisible">
-      <q-card class="q-pa-md">
+      <q-card class="q-pa-md"  style="width: 400px;">
         <q-card-section>
           <q-input v-model="currentItem.cod_area_funcional" label="Código Área Funcional" outlined />
           <q-input v-model="currentItem.cod_sistema" label="Código Sistema" outlined />

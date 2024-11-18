@@ -272,7 +272,7 @@
             <q-item-label>Modelador Prestamos</q-item-label>
           </q-item-section>
         </q-item> -->
-        <q-expansion-item icon="menu_open" label="Menu Levels">
+        <!--<q-expansion-item icon="menu_open" label="Menu Levels">
           <q-item class="q-ml-xl" active-class="q-item-no-link-highlighting">
             <q-item-section>
               <q-item-label>Level 1</q-item-label>
@@ -297,7 +297,7 @@
               </q-item>
             </q-expansion-item>
           </q-expansion-item>
-        </q-expansion-item>
+        </q-expansion-item>-->
       </q-list>
     </q-drawer>
 

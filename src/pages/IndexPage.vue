@@ -20,36 +20,47 @@
 
     <!-- Diálogo para crear y editar registros -->
     <q-dialog v-model="dialogVisible">
-      <q-card class="q-pa-md">
+      <q-card class="q-pa-md" style="width: 800px;">
         <q-card-section>
-          <q-input v-model="currentItem.codigo" label="Código" outlined />
-          <q-input v-model="currentItem.descripcion" label="Descripción" outlined />
+          <!-- Contenedor q-row para las dos columnas -->
+          <q-row class="q-gutter-md">
+            <!-- Columna 1 -->
+            <q-col :cols="12" :md="6">
+              <q-input v-model="currentItem.codigo" label="Código" outlined />
+              <q-input v-model="currentItem.descripcion" label="Descripción" outlined />
+              <q-select v-model="currentItem.datos" label="Datos" :options="datos"
+                option-value="id" option-label="nombre" emit-value map-options outlined />
 
-          <q-select v-model="currentItem.area_funcional_id" label="Datos" :options="areasFuncionales"
-            option-value="id" option-label="nombre" emit-value map-options outlined />
+              <q-select v-model="currentItem.area_funcional_id" label="Área Funcional" :options="areasFuncionales"
+                option-value="id" option-label="nombre" emit-value map-options outlined />
+            </q-col>
 
+            <!-- Columna 2 -->
+            <q-col :cols="12" :md="6">
+              <q-select v-model="currentItem.sistema_id" label="Sistema" :options="sistemas" option-value="id"
+                option-label="sistema" emit-value map-options outlined />
 
-          <q-select v-model="currentItem.area_funcional_id" label="Área Funcional" :options="areasFuncionales"
-            option-value="id" option-label="nombre" emit-value map-options outlined />
+              <q-select v-model="currentItem.en_desarrollo" label="En Desarrollo" :options="enDesarrollo" option-value="id"
+                option-label="enDesarrollo" emit-value map-options outlined />
 
-          <q-select v-model="currentItem.sistema_id" label="Sistema" :options="sistemas" option-value="id"
-            option-label="sistema" emit-value map-options outlined />
+              <q-select v-model="currentItem.capa" label="Capa" :options="capa" option-value="id"
+                option-label="capa" emit-value map-options outlined />
 
-          <q-select v-model="currentItem.sistema_id" label="Estado" :options="sistemas" option-value="id"
-            option-label="sistema" emit-value map-options outlined />
-
-          <q-select v-model="currentItem.pais_id" :options="paises" label="Pais" option-label="nombre" option-value="id"
-            emit-value map-options outlined />
-
-          <q-input v-model="currentItem.en_desarrollo" label="En Desarrollo" outlined />
-
+              <q-select v-model="currentItem.pais_id" :options="paises" label="Pais" option-label="nombre"
+                option-value="id" emit-value map-options outlined />
+              <!--q-input v-model="currentItem.en_desarrollo" label="En Desarrollo" outlined /-->
+            </q-col>
+          </q-row>
         </q-card-section>
+
         <q-card-actions>
           <q-btn @click="saveItem" color="secondary" label="Guardar" />
           <q-btn @click="dialogVisible = false" color="negative" label="Cancelar" />
         </q-card-actions>
       </q-card>
     </q-dialog>
+
+
 
     <!-- Diálogo de confirmación de eliminación -->
     <q-dialog v-model="deleteDialogVisible">
@@ -88,18 +99,35 @@ export default {
       itemToDelete: null,
       columns: [
         { name: 'codigo', label: 'Código', field: 'codigo', align: 'left', sortable: true },
+        { name: 'datos', label: 'Datos', field: 'datos', align: 'left', sortable: true },
         { name: 'descripcion', label: 'Descripción', field: 'descripcion', align: 'left', sortable: true },
         { name: 'area_funcional', label: 'Área Funcional', field: row => row.areaFuncional?.nombre, align: 'left', sortable: true },
         { name: 'sistema', label: 'Sistema', field: row => row.sistema?.sistema, align: 'left', sortable: true },
         { name: 'pais', label: 'País', field: row => row.pais?.nombre, align: 'left', sortable: true },
         { name: 'usuario', label: 'Usuario', field: row => row.usuario?.username, align: 'left', sortable: true },
         { name: 'en_desarrollo', label: 'En Desarrollo', field: 'en_desarrollo', align: 'center', sortable: true },
+        { name: 'capa', label: 'Capa', field: 'capa', align: 'center', sortable: true },
         { name: 'actions', label: 'Acciones', align: 'center', field: 'actions' }
       ],
       paises: [],
       sistemas: [],
       areasFuncionales: [],
-      usuarios: []
+      usuarios: [],
+      datos:[
+        'Datos',
+        'Parámetros'
+      ],
+      enDesarrollo:[
+        'Inactiva',
+        'En Desarrollo',
+        'Activa',
+        'Desuso'
+      ],
+      capa:[
+        'Cliente',
+        'Core',
+        'País'
+      ],
     }
   },
   watch: {
@@ -189,7 +217,7 @@ export default {
     async saveItem() {
       try {
         if (this.currentItem.id) {
-          await ApiService.SetInventario(this.currentItem.id,this.currentItem)
+          await ApiService.SetInventario(this.currentItem.id, this.currentItem)
         } else {
           await ApiService.CreateInventario(this.currentItem)
         }
