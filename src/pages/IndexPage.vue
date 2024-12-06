@@ -10,7 +10,7 @@
       </template>
 
       <!-- Slot para agregar botones de acción en cada fila -->
-      <template v-slot:body-cell-actions="props">
+      <template v-slot:body-cell-actions="props" class="q-virtual-scroll--with-prev">
         <q-td :props="props" class="q-pa-none">
           <q-btn flat color="secondary" icon="edit" @click="openEditDialog(props.row)" class="q-mr-xs" round />
           <q-btn flat color="negative" icon="delete" @click="confirmDelete(props.row.id)" round />
@@ -28,7 +28,7 @@
             <q-col :cols="12" :md="6">
               <q-input v-model="currentItem.codigo" label="Código" outlined />
               <q-input v-model="currentItem.descripcion" label="Descripción" outlined />
-              <q-select v-model="currentItem.datos" label="Datos" :options="datos"
+              <q-select v-model="currentItem.datos" label="Tipo" :options="datos"
                 option-value="id" option-label="nombre" emit-value map-options outlined />
 
               <q-select v-model="currentItem.area_funcional_id" label="Área Funcional" :options="areasFuncionales"
@@ -40,7 +40,7 @@
               <q-select v-model="currentItem.sistema_id" label="Sistema" :options="sistemas" option-value="id"
                 option-label="sistema" emit-value map-options outlined />
 
-              <q-select v-model="currentItem.en_desarrollo" label="En Desarrollo" :options="enDesarrollo" option-value="id"
+              <q-select v-model="currentItem.en_desarrollo" label="Estado" :options="enDesarrollo" option-value="id"
                 option-label="enDesarrollo" emit-value map-options outlined />
 
               <q-select v-model="currentItem.capa" label="Capa" :options="capa" option-value="id"
@@ -70,7 +70,7 @@
         </q-card-section>
         <q-card-actions>
           <q-btn @click="deleteItem" color="negative" label="Eliminar" />
-          <q-btn @click="deleteDialogVisible = false" color="negative" label="Cancelar" />
+          <q-btn @click="deleteDialogVisible = false" color="secondary" label="Cancelar" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -99,13 +99,13 @@ export default {
       itemToDelete: null,
       columns: [
         { name: 'codigo', label: 'Código', field: 'codigo', align: 'left', sortable: true },
-        { name: 'datos', label: 'Datos', field: 'datos', align: 'left', sortable: true },
+        { name: 'datos', label: 'Tipo', field: 'datos', align: 'left', sortable: true },
         { name: 'descripcion', label: 'Descripción', field: 'descripcion', align: 'left', sortable: true },
         { name: 'area_funcional', label: 'Área Funcional', field: row => row.areaFuncional?.nombre, align: 'left', sortable: true },
         { name: 'sistema', label: 'Sistema', field: row => row.sistema?.sistema, align: 'left', sortable: true },
         { name: 'pais', label: 'País', field: row => row.pais?.nombre, align: 'left', sortable: true },
         { name: 'usuario', label: 'Usuario', field: row => row.usuario?.username, align: 'left', sortable: true },
-        { name: 'en_desarrollo', label: 'En Desarrollo', field: 'en_desarrollo', align: 'center', sortable: true },
+        { name: 'en_desarrollo', label: 'Estado', field: 'en_desarrollo', align: 'center', sortable: true },
         { name: 'capa', label: 'Capa', field: 'capa', align: 'center', sortable: true },
         { name: 'actions', label: 'Acciones', align: 'center', field: 'actions' }
       ],
