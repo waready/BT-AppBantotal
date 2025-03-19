@@ -2,7 +2,7 @@
   "name": "app-indicadores",
   "version": "1.0.1",
   "description": "BT-Services App Bantotal",
-  "productName": "Bantotal App",
+  "productName": "Inventario de Tablas",
   "author": "waready <elbarto119@hotmail.com>",
   "private": true,
   "scripts": {

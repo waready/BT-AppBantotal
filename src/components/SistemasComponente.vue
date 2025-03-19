@@ -1,11 +1,14 @@
 <template>
   <q-page class="q-pa-md">
-    <q-btn label="Crear Nuevo Sistema" color="secondary" @click="openCreateDialog" class="q-mb-md" rounded />
 
     <q-table :rows="sistemas || []" :columns="columns" row-key="id" :loading="loading" v-model:pagination="pagination"
       :rows-per-page-label="'Registros por página:'" @request="onRequest" class="q-mb-md">
+      <template v-slot:top-left>
+        <!-- Botón para crear nuevo registro dentro de la tabla -->
+        <q-btn label="Crear Nuevo Sistema" color="secondary" @click="openCreateDialog" class="q-mb-md" rounded />
+      </template>
       <template v-slot:top-right>
-        <q-input filled debounce="300" placeholder="Buscar..." v-model="search" @input="onSearch" clearable />
+        <q-input filled dense debounce="300" placeholder="Buscar..." v-model="search" @input="onSearch" clearable />
       </template>
 
       <template v-slot:body-cell-actions="props">
@@ -35,7 +38,7 @@
     <q-dialog v-model="deleteDialogVisible">
       <q-card class="q-pa-md">
         <q-card-section>
-          ¿Estás seguro de que deseas eliminar este sistema?
+          ¿Estás seguro que deseas eliminar este sistema?
         </q-card-section>
         <q-card-actions>
           <q-btn @click="deleteItem" color="negative" label="Eliminar" />

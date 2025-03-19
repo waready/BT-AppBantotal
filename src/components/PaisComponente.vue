@@ -1,51 +1,20 @@
 <template>
   <q-page class="q-pa-md">
-    <q-btn
-      label="Crear Nuevo País"
-      color="secondary"
-      @click="openCreateDialog"
-      class="q-mb-md"
-      rounded
-    />
 
-    <q-table
-      :rows="paises"
-      :columns="columns"
-      row-key="id"
-      :loading="loading"
-      v-model:pagination="pagination"
-      :rows-per-page-label="'Registros por página:'"
-      @request="onRequest"
-      class="q-mb-md"
-    >
+    <q-table :rows="paises" :columns="columns" row-key="id" :loading="loading" v-model:pagination="pagination"
+      :rows-per-page-label="'Registros por página:'" @request="onRequest" class="q-mb-md">
+      <template v-slot:top-left>
+        <!-- Botón para crear nuevo registro dentro de la tabla -->
+        <q-btn label="Crear Nuevo País" color="secondary" @click="openCreateDialog" class="q-mb-md" rounded />
+      </template>
       <template v-slot:top-right>
-        <q-input
-          filled
-          debounce="300"
-          placeholder="Buscar..."
-          v-model="search"
-          @input="onSearch"
-          clearable
-        />
+        <q-input filled dense debounce="300" placeholder="Buscar..." v-model="search" @input="onSearch" clearable />
       </template>
 
       <template v-slot:body-cell-actions="props">
         <q-td :props="props" class="q-pa-none">
-          <q-btn
-            flat
-            color="secondary"
-            icon="edit"
-            @click="openEditDialog(props.row)"
-            class="q-mr-xs"
-            round
-          />
-          <q-btn
-            flat
-            color="negative"
-            icon="delete"
-            @click="confirmDelete(props.row.id)"
-            round
-          />
+          <q-btn flat color="secondary" icon="edit" @click="openEditDialog(props.row)" class="q-mr-xs" round />
+          <q-btn flat color="negative" icon="delete" @click="confirmDelete(props.row.id)" round />
         </q-td>
       </template>
     </q-table>
@@ -164,7 +133,7 @@ export default {
     async saveItem() {
       try {
         if (this.currentItem.id) {
-          await ApiService.SetPaises(this.currentItem.id,this.currentItem)
+          await ApiService.SetPaises(this.currentItem.id, this.currentItem)
         } else {
           await ApiService.CreatePaises(this.currentItem)
         }
