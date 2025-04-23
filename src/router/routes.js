@@ -6,13 +6,14 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     meta: { requiresAuth: true },
     children: [
-  
+
       { path: '', component: () => import('pages/IndexPage.vue') },
       { path: 'sistemas', component: () => import('components/SistemasComponente.vue') },
       { path: 'areas', component: () => import('components/AreaComponente.vue') },
       { path: 'paises', component: () => import('components/PaisComponente.vue') },
-      { path: 'Productos', component: () => import('pages/ahorroProgramado/ObtenerProductos.vue') },
-      { path: '/Agrupadores', component: () => import('pages/indicadores/Agrupadores.vue')},
+      { path: 'reportes', component: () => import('components/ReportesComponente.vue') },
+      //{ path: 'Productos', component: () => import('pages/ahorroProgramado/ObtenerProductos.vue') },
+      { path: '/Agrupadores', component: () => import('pages/indicadores/Agrupadores.vue') },
       {
         path: "/indicador/:id",
         name: '/indicador',
@@ -23,12 +24,12 @@ const routes = [
   },
   {
     path: '/Login',
-    name:"login",
+    name: "login",
     component: () => import('pages/Login.vue'),
     meta: { requiresAuth: false },
     beforeEnter: (to, from, next) => {
       console.log(Store.state.app.logged)
-      if(Store.state.app.logged) {
+      if (Store.state.app.logged) {
         next({ path: "/" });
       } else {
         next();

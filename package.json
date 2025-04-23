@@ -1,5 +1,5 @@
 {
-  "name": "app-indicadores",
+  "name": "app-tablas",
   "version": "1.0.1",
   "description": "BT-Services App Bantotal",
   "productName": "Inventario de Tablas",
@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.16.4",
+    "ace-builds": "^1.40.1",
     "axios": "^1.4.0",
     "core-js": "^3.6.5",
     "crypto-js": "^4.1.1",
