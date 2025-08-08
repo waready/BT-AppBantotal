@@ -70,6 +70,44 @@ class ApiService {
   static async DeleteAreasFuncionales(id){
     return (await http.delete(`areas/${id}`)).data;
   }
+
+//Query Reportes
+  static async GetConsultaQuery(data) {
+    return await http.post('generar-reporte/', data, { responseType: 'blob' });
+  }
+
+  // ===================== ROLES =====================
+  static async getRoles() {
+    return await http.get('roles')
+  }
+  static async getRole(id) {
+    return await http.get(`roles/${id}`)
+  }
+  static async createRole(data) {
+    return await http.post('roles', data)
+  }
+  static async updateRole(id, data) {
+    return await http.put(`roles/${id}`, data)
+  }
+  static async deleteRole(id) {
+    return await http.delete(`roles/${id}`)
+  }
+
+  // ===================== USUARIOS =====================
+  static async getUsers() {
+    return await http.get('users')
+  }
+  static async createUser(data) {
+    return await http.post('users', data)
+  }
+  static async updateUser(id, data) {
+    return await http.put(`users/${id}`, data)
+  }
+  static async deleteUser(id) {
+    return await http.delete(`users/${id}`)
+  }
+
+
 }
 
 export default ApiService;

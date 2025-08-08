@@ -45,8 +45,19 @@ class AuthServices {
       "token",
       `${tokenResponse.type} ${tokenResponse.token}`
     );
+    // Calcula expiración (si tu backend no la envía)
+    const expiresInMs = 1 * 60 * 60 * 1000; // 2 horas
+    const expiresAt = Date.now() + expiresInMs;
+    secureStorage.setItem("expires_at", expiresAt);
+  
     http.defaults.headers["Authorization"] = secureStorage.getItem("token"); 
   }
+
+  static isTokenExpired() {
+    const expiresAt = secureStorage.getItem("expires_at");
+    if (!expiresAt) return true;
+    return Date.now() > parseInt(expiresAt, 10);
+  }  
 
   static removeToken() {
     localStorage.clear();

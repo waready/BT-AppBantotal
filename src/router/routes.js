@@ -12,7 +12,8 @@ const routes = [
       { path: 'areas', component: () => import('components/AreaComponente.vue') },
       { path: 'paises', component: () => import('components/PaisComponente.vue') },
       { path: 'reportes', component: () => import('components/ReportesComponente.vue') },
-      //{ path: 'Productos', component: () => import('pages/ahorroProgramado/ObtenerProductos.vue') },
+      { path: 'users', component: () => import('pages/UsersPage.vue') },
+      { path: 'roles', component: () => import('pages/RolesPage.vue') },
       { path: '/Agrupadores', component: () => import('pages/indicadores/Agrupadores.vue') },
       {
         path: "/indicador/:id",
